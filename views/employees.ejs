@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employees</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <header class="header">
+    <h1>Employee List</h1>
+
+  </header>
+
+  <nav class="navigation">
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/employees/view">Employees</a></li>
+      <li><a href="/departments/view">Departments</a></li>
+      <li><a href="/roles/view">Roles</a></li>
+    </ul>
+  </nav>
+
+
+
+  <main class="main-content">
+    <div class="search-bar">
+      <form action="/employees/search" method="GET">
+        <input type="text" name="q" id="employeeSearch" placeholder="Search Employees..." />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Role</th>
+          <th>Department</th>
+          <th>Salary</th>
+          <th>Hire Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (employees.length===0) { %>
+          <tr>
+            <td colspan="7">No employees found. Try a different search term.</td>
+          </tr>
+          <% } else { %>
+            <% employees.forEach(employee=> { %>
+              <tr>
+                <td>  <%= employee.Eid %> </td>
+                <td> <%= employee.firstName %> </td>
+                <td> <%= employee.lastName %> </td>
+                <td> <%= employee.role %> </td>
+                <td> <%= employee.department %> </td>
+                <td> <%= employee.salary %> </td>
+                <td> <%= employee.hireDate %> </td>
+                <td>
+
+                  <!-- Delete Button -->
+                  <form action="/employees/<%= employee.id %>?_method=DELETE" method="POST">
+                    <button type="submit">Delete</button>
+                  </form>
+
+                  <!-- Update Button -->
+                  <form action="/employees/update/<%= employee.id %>" method="GET">
+                    <button type="submit">Update</button>
+                  </form>
+            
+                </td>
+
+              </tr>
+              <% }) %>
+                <% } %>
+      </tbody>
+    </table>
+
+    <div class="action-buttons">
+      <form action="/employees/add" method="GET">
+        <button type="submit">Add Employee</button>
+      </form>
+    </div>
+    
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Chahinez Company. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departments</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <header class="header">
+    <h1>Departments</h1>
+  </header>
+
+  <nav class="navigation">
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/employees/view">Employees</a></li>
+      <li><a href="/departments/view">Departments</a></li>
+      <li><a href="/roles/view">Roles</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+
+    <div class="search-bar">
+      <form action="/departments/search" method="GET">
+        <input type="text" name="q" placeholder="Search Departments by ID or Name..." />
+        <button type="submit">Search</button>
+      </form>
+    
+    </div>
+
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (departments.length === 0) { %>
+          <tr>
+            <td colspan="2">No departments found. Try a different search term.</td>
+          </tr>
+        <% } else { %>
+          <% departments.forEach(department => { %>
+            <tr>
+              <td><%= department.Did %></td>
+              <td><%= department.name %></td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Chahinez Company. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

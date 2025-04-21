@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roles</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Roles</h1>
+  </header>
+
+  <nav class="navigation">
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/employees/view">Employees</a></li>
+      <li><a href="/departments/view">Departments</a></li>
+      <li><a href="/roles/view">Roles</a></li>
+    </ul>
+  </nav>
+
+
+  <main class="main-content">
+
+    <div class="search-bar">
+      <form action="/roles/search" method="GET">
+        <input type="text" name="q" placeholder="Search Roles by ID or Name..." />
+        <button type="submit">Search</button>
+      </form>
+    
+    </div>
+
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (roles.length === 0) { %>
+          <tr>
+            <td colspan="2">No roles found. Try a different search term.</td>
+          </tr>
+        <% } else { %>
+          <% roles.forEach(role => { %>
+            <tr>
+              <td><%= role.id %></td>
+              <td><%= role.title %></td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Chahinez Company. All rights reserved.</p>
+  </footer>
+</body>
+</html>
