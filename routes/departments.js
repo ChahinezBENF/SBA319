@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Department = require('../models/departmentModel'); // MongoDB model
+const Department = require('../models/departmentModel');
 
 // Get all departments
 router.get('/', async (req, res) => {
@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// View all departments (EJS)
 router.get('/view', async (req, res) => {
   try {
     const departments = await Department.find();
@@ -21,14 +22,15 @@ router.get('/view', async (req, res) => {
   }
 });
 
+// Search for departments
 router.get('/search', async (req, res) => {
   const query = req.query.q ? req.query.q.toLowerCase() : '';
   try {
     const departments = await Department.find({
       $or: [
         { name: { $regex: query, $options: 'i' } },
-        { _id: { $regex: query, $options: 'i' } },
-      ],
+        { Did: parseInt(query) || null }
+      ]
     });
     res.render('departments', { departments });
   } catch (err) {
@@ -36,27 +38,13 @@ router.get('/search', async (req, res) => {
   }
 });
 
-// Get a specific department by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const department = await Department.findById(req.params.id);
-    if (department) {
-      res.json(department);
-    } else {
-      res.status(404).send('Department not found');
-    }
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
 // Add a new department
 router.post('/', async (req, res) => {
-  const { name, location } = req.body;
+  const { Did, name } = req.body;
   try {
-    const newDepartment = new Department({ name, location });
+    const newDepartment = new Department({ Did, name });
     await newDepartment.save();
-    res.status(201).json(newDepartment);
+    res.redirect('/departments/view');
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -64,15 +52,15 @@ router.post('/', async (req, res) => {
 
 // Update a department
 router.put('/:id', async (req, res) => {
-  const { name, location } = req.body;
+  const { Did, name } = req.body;
   try {
     const updatedDepartment = await Department.findByIdAndUpdate(
       req.params.id,
-      { name, location },
+      { Did, name },
       { new: true }
     );
     if (updatedDepartment) {
-      res.json(updatedDepartment);
+      res.redirect('/departments/view');
     } else {
       res.status(404).send('Department not found');
     }
@@ -86,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const deletedDepartment = await Department.findByIdAndDelete(req.params.id);
     if (deletedDepartment) {
-      res.status(204).send();
+      res.redirect('/departments/view');
     } else {
       res.status(404).send('Department not found');
     }

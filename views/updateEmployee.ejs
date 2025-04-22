@@ -11,11 +11,11 @@
     <h1>Update Employee</h1>
   </header>
   <main class="main-content">
-    <form action="/employees/<%= employee.id %>?_method=PUT" method="POST" class="form-container">
+    <form action="/employees/update/<%= employee._id %>" method="POST" class="form-container">
       
       <div class="form-group">
       <label for="id">ID:</label>
-      <input type="text" name="id" id="id" value="<%= employee.id %>" readonly />
+      <input type="text" name="id" id="id" value="<%= employee.Eid %>" readonly />
       </div>
 
       <div class="form-group">
@@ -45,7 +45,7 @@
 
       <div class="form-group">
       <label for="hireDate">Hire Date:</label>
-      <input type="date" name="hireDate" id="hireDate" value="<%= employee.hireDate %>" required />
+      <input type="date" id="hireDate" name="hireDate" value="<%= employee.hireDate %>" required><br>
       </div>  
 
       <div class="form-group">    

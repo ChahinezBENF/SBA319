@@ -33,27 +33,49 @@
     </div>
 
     <table class="employee-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if (departments.length === 0) { %>
+             <thead>
           <tr>
-            <td colspan="2">No departments found. Try a different search term.</td>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
           </tr>
-        <% } else { %>
-          <% departments.forEach(department => { %>
+        </thead>
+        <tbody>
+          <% if (departments.length === 0) { %>
             <tr>
-              <td><%= department.Did %></td>
-              <td><%= department.name %></td>
+              <td colspan="3">No departments found. Try a different search term.</td>
             </tr>
-          <% }) %>
-        <% } %>
-      </tbody>
-    </table>
+          <% } else { %>
+            <% departments.forEach(department => { %>
+              <tr>
+                <td><%= department.Did %></td>
+                <td><%= department.name %></td>
+                <td>
+                  <!-- Update Form -->
+                  <form action="/departments/<%= department._id %>?_method=PUT" method="POST" style="display:inline;">
+                    <input type="text" name="name" value="<%= department.name %>" required />
+                    <button type="submit">Update</button>
+                  </form>
+                  <!-- Delete Form -->
+                  <form action="/departments/<%= department._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          <% } %>
+        </tbody>
+      </table>
+
+      <!-- Add Department Form -->
+    <div class="add-department">
+            <form action="/departments/" method="POST">
+        <input type="number" name="Did" placeholder="Department ID" required />
+        <input type="text" name="name" placeholder="Department Name" required />
+        <button type="submit">Add Department</button>
+      </form>
+    </div>
+
   </main>
 
   <footer class="footer">

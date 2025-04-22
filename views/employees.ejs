@@ -64,14 +64,15 @@
                 <td>
 
                   <!-- Delete Button -->
-                  <form action="/employees/<%= employee.id %>?_method=DELETE" method="POST">
+                  <form action="/employees/<%= employee._id %>?_method=DELETE" method="POST">
                     <button type="submit">Delete</button>
                   </form>
+                  
 
                   <!-- Update Button -->
-                  <form action="/employees/update/<%= employee.id %>" method="GET">
+                  <form action="/employees/update/<%= employee._id %>" method="GET">
                     <button type="submit">Update</button>
-                  </form>
+                  </form>                  
             
                 </td>
 

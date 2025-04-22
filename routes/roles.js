@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Role = require('../models/roleModel');
 
-// Get all roles
+// Get All Roles
 router.get('/', async (req, res) => {
   try {
     const roles = await Role.find();
@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// View All Roles
 router.get('/view', async (req, res) => {
   try {
     const roles = await Role.find();
@@ -21,25 +22,45 @@ router.get('/view', async (req, res) => {
   }
 });
 
-// Add a new role
-router.post('/', async (req, res) => {
-  const { title, permissions } = req.body;
+// Search Roles
+router.get('/search', async (req, res) => {
+  const query = req.query.q ? req.query.q.toLowerCase() : '';
   try {
-    const newRole = new Role({ title, permissions });
+    const roles = await Role.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { Rid: parseInt(query) || null }
+      ]
+    });
+    res.render('roles', { roles });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// Add a New Role
+router.post('/', async (req, res) => {
+  const { Rid, title } = req.body;
+  try {
+    const newRole = new Role({ Rid, title });
     await newRole.save();
-    res.status(201).json(newRole);
+    res.redirect('/roles/view');
   } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
-// Update a role
+// Update a Role
 router.put('/:id', async (req, res) => {
-  const updates = req.body;
+  const { title } = req.body;
   try {
-    const updatedRole = await Role.findByIdAndUpdate(req.params.id, updates, { new: true });
+    const updatedRole = await Role.findByIdAndUpdate(
+      req.params.id,
+      { title },
+      { new: true }
+    );
     if (updatedRole) {
-      res.json(updatedRole);
+      res.redirect('/roles/view');
     } else {
       res.status(404).send('Role not found');
     }
@@ -48,12 +69,12 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete a role
+// Delete a Role
 router.delete('/:id', async (req, res) => {
   try {
     const deletedRole = await Role.findByIdAndDelete(req.params.id);
     if (deletedRole) {
-      res.status(204).send();
+      res.redirect('/roles/view');
     } else {
       res.status(404).send('Role not found');
     }

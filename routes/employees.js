@@ -17,7 +17,12 @@ router.get('/', async (req, res) => {
 router.get('/view', async (req, res) => {
   try {
     const employees = await Employee.find();
-    res.render('employees', { employees });
+    const formattedEmployees = employees.map(employee => {
+      const date = new Date(employee.hireDate);
+      const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getFullYear()}`;
+      return { ...employee.toObject(), hireDate: formattedDate };
+    });
+    res.render('employees', { employees: formattedEmployees });
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -131,16 +136,16 @@ router.delete('/:id', async (req, res) => {
 //get element by id
 router.get('/:id', async (req, res) => {
   try {
-      const employee = await Employee.findById(req.params.id);
-      if (!employee) {
-          return res.status(404).json({ message: "Employee not found" });
-      }
-      res.json(employee);
-      res.redirect('/employees/view'); // Redirect to the main employees page after deletion
+    const employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+    res.json(employee); // Remove the redirect
   } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 module.exports = router;

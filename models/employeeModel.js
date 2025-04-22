@@ -1,13 +1,13 @@
 const mongoose = require('../db/conn');
 
 const employeeSchema = new mongoose.Schema({
-  Eid: { type: Number, required: true, unique: true }, 
+  Eid: {type: Number,required: true},
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   role: { type: String, required: true },
   department: { type: String, required: true },
   salary: { type: Number, required: true },
-  hireDate: { type: Date, required: true },
+  hireDate: { type: String, required: true }, 
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);

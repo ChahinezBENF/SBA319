@@ -36,23 +36,45 @@
         <tr>
           <th>ID</th>
           <th>Title</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% if (roles.length === 0) { %>
           <tr>
-            <td colspan="2">No roles found. Try a different search term.</td>
+            <td colspan="3">No roles found. Try a different search term.</td>
           </tr>
         <% } else { %>
           <% roles.forEach(role => { %>
             <tr>
               <td><%= role.Rid %></td>
               <td><%= role.title %></td>
+              <td>
+                <!-- Update Form -->
+                <form action="/roles/<%= role._id %>?_method=PUT" method="POST" style="display:inline;">
+                  <input type="text" name="title" value="<%= role.title %>" required />
+                  <button type="submit">Update</button>
+                </form>
+                <!-- Delete Form -->
+                <form action="/roles/<%= role._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
             </tr>
           <% }) %>
         <% } %>
       </tbody>
     </table>
+
+    <!-- Add Role Form -->
+    <div class="add-role">
+          <form action="/roles" method="POST">
+        <input type="number" name="Rid" placeholder="Role ID" required />
+        <input type="text" name="title" placeholder="Role Title" required />
+        <button type="submit">Add Role</button>
+      </form>
+    </div>
+
   </main>
 
   <footer class="footer">

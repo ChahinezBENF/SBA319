@@ -39,6 +39,12 @@ app.use('/departments', departmentsRoutes);
 app.use('/employees', employeesRoutes);
 app.use('/roles', rolesRoutes);
 
+//error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
