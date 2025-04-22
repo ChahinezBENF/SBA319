@@ -2,7 +2,7 @@
   "name": "sba319",
   "version": "1.0.0",
   "main": "index.js",
- "scripts": {
+  "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
@@ -20,4 +20,3 @@
     "nodemon": "^3.1.9"
   }
 }
-

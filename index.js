@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const mongoose = require('./db/conn'); // Connect to MongoDB using the connection module
+const mongoose = require('./db/conn'); 
+const methodOverride = require('method-override');
+
 
 // Load environment variables
 dotenv.config();
@@ -11,6 +13,9 @@ const app = express();
 // Middleware for parsing JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Middleware to support PUT and DELETE from forms
+app.use(methodOverride('_method'));
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
