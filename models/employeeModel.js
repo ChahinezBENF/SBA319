@@ -7,7 +7,8 @@ const employeeSchema = new mongoose.Schema({
   role: { type: String, required: true },
   department: { type: String, required: true },
   salary: { type: Number, required: true },
-  hireDate: { type: String, required: true }, 
+  hireDate: { type: String, required: true },
+  dob: {   type: Date, required: true }
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);

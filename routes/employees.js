@@ -59,7 +59,7 @@ router.get('/add', (req, res) => {
 
 // Add a new employee
 router.post('/', async (req, res) => {
-  const { Eid, firstName, lastName, role, department, salary, hireDate } = req.body;
+  const { Eid, firstName, lastName, role, department, salary, hireDate , dob } = req.body;
 
   try {
     // Create a new employee document
@@ -71,6 +71,7 @@ router.post('/', async (req, res) => {
       department,
       salary,
       hireDate,
+      dob 
     });
 
     // Save the document to the database
@@ -98,12 +99,12 @@ router.get('/update/:id', async (req, res) => {
 
 // Update Employee
 router.post('/update/:id', async (req, res) => {
-  const { firstName, lastName, role, department, salary, hireDate } = req.body;
+  const { firstName, lastName, role, department, salary, hireDate, dob  } = req.body;
   try {
     const updatedEmployee = await Employee.findByIdAndUpdate(
       req.params.id,
-      { firstName, lastName, role, department, salary, hireDate },
-      { new: true }
+      { firstName, lastName, role, department, salary, hireDate, dob  },
+      { new: true , runValidators: true}
     );
     if (!updatedEmployee) {
       return res.status(404).send('Employee not found.');
