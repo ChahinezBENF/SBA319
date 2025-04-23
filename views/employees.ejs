@@ -43,6 +43,7 @@
           <th>Department</th>
           <th>Salary</th>
           <th>Hire Date</th>
+          <th>Date of Birth</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -57,10 +58,11 @@
                 <td>  <%= employee.Eid %> </td>
                 <td> <%= employee.firstName %> </td>
                 <td> <%= employee.lastName %> </td>
-                <td> <%= employee.role %> </td>
-                <td> <%= employee.department %> </td>
+                <td><%= employee.role ? employee.role.title : 'No Role Assigned' %></td>
+                <td><%= employee.department ? employee.department.name : 'No Department Assigned' %></td>
                 <td> <%= employee.salary %> </td>
                 <td> <%= employee.hireDate %> </td>
+                <td><%= new Date(employee.dob).toLocaleDateString() %></td>
                 <td>
 
                   <!-- Delete Button -->

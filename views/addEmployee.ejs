@@ -5,13 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Employee</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    function validateForm(event) {
+      const dobInput = document.getElementById('dob');
+      const hireDateInput = document.getElementById('hireDate');
+      const dob = new Date(dobInput.value);
+      const hireDate = new Date(hireDateInput.value);
+      const now = new Date();
+
+      // Check if DOB is in the future
+      if (dob > now) {
+        alert('Date of Birth cannot be in the future.');
+        event.preventDefault();
+        return false;
+      }
+
+      // Check if at least 18 years old
+      const minAgeDate = new Date();
+      minAgeDate.setFullYear(now.getFullYear() - 18);
+      if (dob > minAgeDate) {
+        alert('Date of Birth indicates the employee is under 18 years old.');
+        event.preventDefault();
+        return false;
+      }
+
+      // Check if Hire Date is in the future
+      if (hireDate > now) {
+        alert('Hire Date cannot be in the future.');
+        event.preventDefault();
+        return false;
+      }
+
+      // Check if Hire Date is on or after the Date of Birth
+      if (hireDate < dob) {
+        alert('Hire Date must be on or after the Date of Birth.');
+        event.preventDefault();
+        return false;
+      }
+
+      // Check if at least 18 years between DOB and Hire Date
+      const ageAtHire = hireDate.getFullYear() - dob.getFullYear();
+      const hireDateMonth = hireDate.getMonth();
+      const dobMonth = dob.getMonth();
+      const hireDateDay = hireDate.getDate();
+      const dobDay = dob.getDate();
+
+      if (
+        ageAtHire < 18 || 
+        (ageAtHire === 18 && (hireDateMonth < dobMonth || (hireDateMonth === dobMonth && hireDateDay < dobDay)))
+      ) {
+        alert('There must be at least 18 years between Date of Birth and Hire Date.');
+        event.preventDefault();
+        return false;
+      }
+
+      return true;
+    }
+  </script>
 </head>
 <body>
   <header class="header">
     <h1>Add New Employee</h1>
   </header>
   <main class="main-content">
-    <form action="/employees" method="POST" class="form-container">
+    <form action="/employees" method="POST" class="form-container" onsubmit="validateForm(event)">
       <div class="form-group">
         <label for="Eid">ID:</label>
         <input type="number" name="Eid" id="Eid" pattern="^[1-9][0-9]*$" required />
@@ -27,14 +84,22 @@
         <input type="text" name="lastName" id="lastName" required />
       </div>
 
-      <div class="form-group">  
-        <label for="role">Role:</label>
-        <input type="text" name="role" id="role" required />
+      <div class="form-group"> 
+      <label for="role">Role:</label>
+      <select id="role" name="role" required>
+        <% roles.forEach(role => { %>
+          <option value="<%= role._id %>"><%= role.title %></option>
+        <% }); %>
+      </select>
       </div>
-
-      <div class="form-group">  
-        <label for="department">Department:</label>
-        <input type="text" name="department" id="department" required />
+    
+      <div class="form-group"> 
+      <label for="department">Department:</label>
+      <select id="department" name="department" required>
+        <% departments.forEach(department => { %>
+          <option value="<%= department._id %>"><%= department.name %></option>
+        <% }); %>
+      </select>
       </div>
 
       <div class="form-group">
@@ -45,6 +110,11 @@
       <div class="form-group">
         <label for="hireDate">Hire Date:</label>
         <input type="date" name="hireDate" id="hireDate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
       </div>
 
       <div class="form-group">

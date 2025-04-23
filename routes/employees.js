@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Employee = require('../models/employeeModel');
+const Role = require('../models/roleModel');
+const Department = require('../models/departmentModel');
+
 
 // Get all employees
 router.get('/', async (req, res) => {
@@ -16,17 +19,24 @@ router.get('/', async (req, res) => {
 
 router.get('/view', async (req, res) => {
   try {
-    const employees = await Employee.find();
+    const employees = await Employee.find()
+      .populate('role', 'title')
+      .populate('department', 'name');
+
+
     const formattedEmployees = employees.map(employee => {
       const date = new Date(employee.hireDate);
       const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getFullYear()}`;
       return { ...employee.toObject(), hireDate: formattedDate };
     });
+
     res.render('employees', { employees: formattedEmployees });
   } catch (err) {
     res.status(500).send(err.message);
   }
 });
+
+
 
 
 
@@ -52,14 +62,20 @@ router.get('/search', async (req, res) => {
 });
 
 // Render the Add Employee form
-router.get('/add', (req, res) => {
-  res.render('addEmployee'); 
+router.get('/add', async (req, res) => {
+  try {
+    const roles = await Role.find(); // Fetch roles from database
+    const departments = await Department.find(); // Fetch departments from database
+    res.render('addEmployee', { roles, departments }); // Pass data to frontend
+  } catch (err) {
+    res.status(500).send('Error fetching roles or departments: ' + err.message);
+  }
 });
 
 
 // Add a new employee
 router.post('/', async (req, res) => {
-  const { Eid, firstName, lastName, role, department, salary, hireDate } = req.body;
+  const { Eid, firstName, lastName, role, department, salary, hireDate , dob } = req.body;
 
   try {
     // Create a new employee document
@@ -71,6 +87,7 @@ router.post('/', async (req, res) => {
       department,
       salary,
       hireDate,
+      dob 
     });
 
     // Save the document to the database
@@ -84,26 +101,37 @@ router.post('/', async (req, res) => {
 });
 
 // Render Update Employee Form
+
+
 router.get('/update/:id', async (req, res) => {
   try {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await Employee.findById(req.params.id)
+      .populate('role', 'title')
+      .populate('department', 'name');
+
     if (!employee) {
       return res.status(404).send('Employee not found.');
     }
-    res.render('updateEmployee', { employee });
+
+    const roles = await Role.find(); // Fetch all roles
+    const departments = await Department.find(); // Fetch all departments
+
+    res.render('updateEmployee', { employee, roles, departments });
   } catch (err) {
     res.status(500).send(err.message);
   }
 });
 
+
 // Update Employee
+
 router.post('/update/:id', async (req, res) => {
-  const { firstName, lastName, role, department, salary, hireDate } = req.body;
+  const { firstName, lastName, role, department, salary, hireDate, dob } = req.body;
   try {
     const updatedEmployee = await Employee.findByIdAndUpdate(
       req.params.id,
-      { firstName, lastName, role, department, salary, hireDate },
-      { new: true }
+      { firstName, lastName, role, department, salary, hireDate, dob },
+      { new: true, runValidators: true }
     );
     if (!updatedEmployee) {
       return res.status(404).send('Employee not found.');
@@ -113,6 +141,7 @@ router.post('/update/:id', async (req, res) => {
     res.status(400).send(err.message);
   }
 });
+
 
 
 

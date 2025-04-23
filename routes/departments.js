@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Department = require('../models/departmentModel');
 
+
 // Get all departments
 router.get('/', async (req, res) => {
   try {
