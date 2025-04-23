@@ -3,7 +3,7 @@
 This is a simple Node.js/Express web application for managing employees, departments, and roles. It uses **MongoDB** as the database and **Mongoose** for data modeling, along with **EJS** as the templating engine. The application allows users to perform CRUD operations on employees, roles, and departments.
 
 ---
-## Features
+## 🌟 Features
 
 - **CRUD Operations**:  
   Add, view, update, and delete employees, roles, and departments.
@@ -20,7 +20,7 @@ This is a simple Node.js/Express web application for managing employees, departm
 
 ---
 
-## Technologies Used
+## 🛠️ Tech Stack
 
 ### Backend
 - Node.js
@@ -39,7 +39,7 @@ This is a simple Node.js/Express web application for managing employees, departm
 - MongoDB Atlas 
 
 ---
-## API Endpoints
+## 📂 API Endpoints
 
 ### Employees
 - **`GET /employees/view`** - View all employees.
@@ -62,7 +62,7 @@ This is a simple Node.js/Express web application for managing employees, departm
 
 ---
 
-✅ Requirement Fulfillment
+## ✅ Requirement Fulfillment
 
 ## 1. Use at least three different data collections within the database
 My project utilizes the following three collections:
