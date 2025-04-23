@@ -61,7 +61,8 @@ This is a simple Node.js/Express web application for managing employees, departm
 - **`DELETE /roles/:id`** - Delete a role.
 
 ---
-## Requirements
+
+✅ Requirement Fulfillment
 
 ## 1. Use at least three different data collections within the database
 My project utilizes the following three collections:
@@ -100,6 +101,7 @@ same thing for the fils (`routes/departments.js` , `routes/roles.js`)
 
 ## 4. Create POST routes for data
 I have a POST route for adding data (`employee`, `department`, `role`)
+
 #### Example:
 The `routes/employees` allows clients to create a new employee 
 
@@ -111,4 +113,53 @@ router.post('/', async (req, res) => {
     res.redirect('/employees/view');
   } catch (err) {  res.status(400).send(err.message);  } });
 ```
-  
+
+## 5.Create PATCH or PUT routes for data/////////////////////////////
+
+## 6.Create DELETE routes for data
+I have DELETE functionality in fils (`employee`, `department`, `role`)  
+
+#### Example:
+The `routes/employees` allows Deletes an employee
+
+```javascript
+router.delete('/:id', async (req, res) => {
+  try { const deletedEmployee = await Employee.findByIdAndDelete(req.params.id);
+      } catch (err) { res.status(500).send(err.message);  }});
+```
+
+## 7. Populate Collections with Sample Data//////////////////////////////////
+
+## 8.Utilize reasonable code organization practices 
+my project demonstrates reasonable code organization by adhering to the following best practices:
+- **the codebase is organized into dedicated directories for different functionalities:** 
+    -  models: Contains Mongoose schemas for data modeling.
+    -  routes: Contains route handlers for each resource (employees, roles, departments).
+    - views: Contains EJS templates for rendering the user interface.
+    - db: Contains the database connection logic.
+- **Each feature is encapsulated in its own module**
+    - employeeModel.js for the Employee model, employees.js for employee-related routes
+    - departmentModel.js for the Department model, departments.js for department-related routes
+    - roleModel.js for the Role model, roles.js for role-related routes
+- **Reusable Components:**
+    - Middleware, such as `method-override` and `JSON parsing` logic, is centralized in the `index.js` file.
+    - Shared EJS templates 
+- **Environment Configuration:** 
+    - Sensitive configuration values (e.g., MongoDB URI, PORT) are stored in a `.env ` file, added in `.gitignore` file keeping them secure and easily configurable.
+
+
+## 9.Ensure that the program runs without errors //////////////
+
+
+## 10. Commit frequently to the git repository 
+- Git Commit Practices Project includes frequent commit (over 10)
+
+## 11. Include a README file that contains a description of my application  ✅
+
+
+## 12. Creativity and User Experience ✅
+
+## 13. Use Mongoose for Application Implementation 
+ The application relies on Mongoose for:
+  - **Models:** `employeeModel`, `roleModel`, `departmentModel` define schema-level validations.
+  - **Database Queries:** CRUD operations are implemented using `.find()`, `.save()`, `.findByIdAndUpdate()`, and `.findByIdAndDelete()`.
