@@ -126,12 +126,12 @@ router.get('/update/:id', async (req, res) => {
 // Update Employee
 
 router.post('/update/:id', async (req, res) => {
-  const { firstName, lastName, role, department, salary, hireDate, dob } = req.body;
+  const { firstName, lastName, role, department, salary, hireDate } = req.body;
   try {
     const updatedEmployee = await Employee.findByIdAndUpdate(
       req.params.id,
-      { firstName, lastName, role, department, salary, hireDate, dob },
-      { new: true, runValidators: true }
+      { firstName, lastName, role, department, salary, hireDate },
+      { new: true }
     );
     if (!updatedEmployee) {
       return res.status(404).send('Employee not found.');
