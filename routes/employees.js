@@ -102,7 +102,6 @@ router.post('/', async (req, res) => {
 
 // Render Update Employee Form
 
-
 router.get('/update/:id', async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id)
@@ -124,7 +123,7 @@ router.get('/update/:id', async (req, res) => {
 
 
 // Update Employee
-
+// for handling form submissions 
 router.post('/update/:id', async (req, res) => {
   const { firstName, lastName, role, department, salary, hireDate ,dob} = req.body;
   try {
@@ -142,8 +141,25 @@ router.post('/update/:id', async (req, res) => {
   }
 });
 
-
-
+// Update an employee using PUT
+// handling API requests
+// check it on postman 
+router.put('/:id', async (req, res) => {
+  const { firstName, lastName, role, department, salary, hireDate, dob } = req.body;
+  try {
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      req.params.id,
+      { firstName, lastName, role, department, salary, hireDate, dob },
+      { new: true, runValidators: true }
+    );
+    if (!updatedEmployee) {
+      return res.status(404).json({ message: 'Employee not found.' });
+    }
+    res.status(200).json(updatedEmployee); // Respond with the updated employee data
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 
 // Delete an employee

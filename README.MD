@@ -114,7 +114,22 @@ router.post('/', async (req, res) => {
   } catch (err) {  res.status(400).send(err.message);  } });
 ```
 
-## 5.Create PATCH or PUT routes for data/////////////////////////////
+## 5.Create PATCH or PUT routes for data
+I have a  PUT route for updating employee data (`employee`)
+
+#### Example:
+The routes/employees file contains the following endpoint to update an employee's details: 
+
+```javascript
+// Update an employee using PUT
+router.put('/:id', async (req, res) => {
+  const { ........... } = req.body;
+  try { 
+    const updatedEmployee = await Employee.findByIdAndUpdate( ............... );
+      } catch (err) {
+    res.status(400).json({ error: err.message });
+  }});
+```
 
 ## 6.Create DELETE routes for data
 I have DELETE functionality in fils (`employee`, `department`, `role`)  
