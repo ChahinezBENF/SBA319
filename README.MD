@@ -152,14 +152,16 @@ The `seedData.js` allows seeding employees, roles and departments
 ```javascript
 { "Did": 1, "name": "Engineering" }
 { "Did": 2, "name": "Human Resources" }
-........
+.......
 { "Rid": 1, "title": "Engineer" }
 { "Rid": 2, "title": "Manager" }
-.......
+......
 { "Eid": 101, "firstName": "Alice", "lastName": "Johnson", "role": "Engineer", "department": "Engineering" }
 { "Eid": 102, "firstName": "Bob", "lastName": "Smith", "role": "Manager", "department": "Human Resources" }
 
 ```
+
+
 
 ## 8.Utilize reasonable code organization practices 
 my project demonstrates reasonable code organization by adhering to the following best practices:
