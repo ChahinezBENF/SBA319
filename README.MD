@@ -36,7 +36,7 @@ This is a simple Node.js/Express web application for managing employees, departm
 - `method-override` for PUT and DELETE requests
 
 ### Database
-- MongoDB Atlas (or local MongoDB)
+- MongoDB Atlas 
 
 ---
 ## API Endpoints
@@ -143,7 +143,23 @@ router.delete('/:id', async (req, res) => {
       } catch (err) { res.status(500).send(err.message);  }});
 ```
 
-## 7. Populate Collections with Sample Data//////////////////////////////////
+## 7. Populate Collections with Sample Data
+The database is populated with sample data using the `seedData.js` script. Each collection has more than 10 documents to meet and exceed the requirements.
+The `routes/employees.js` file handles routing logic, while `seedData.js` is responsible for database seeding. Keeping them separate to ensures modularity and clarity
+
+#### Example:
+The `seedData.js` allows seeding employees, roles and departments 
+```javascript
+{ "Did": 1, "name": "Engineering" }
+{ "Did": 2, "name": "Human Resources" }
+........
+{ "Rid": 1, "title": "Engineer" }
+{ "Rid": 2, "title": "Manager" }
+.......
+{ "Eid": 101, "firstName": "Alice", "lastName": "Johnson", "role": "Engineer", "department": "Engineering" }
+{ "Eid": 102, "firstName": "Bob", "lastName": "Smith", "role": "Manager", "department": "Human Resources" }
+
+```
 
 ## 8.Utilize reasonable code organization practices 
 my project demonstrates reasonable code organization by adhering to the following best practices:
@@ -163,14 +179,35 @@ my project demonstrates reasonable code organization by adhering to the followin
     - Sensitive configuration values (e.g., MongoDB URI, PORT) are stored in a `.env ` file, added in `.gitignore` file keeping them secure and easily configurable.
 
 
-## 9.Ensure that the program runs without errors //////////////
+## 9.Ensure that the program runs without errors 
+   - No Runtime Errors, Handle Failures Gracefully, Error Handling
 
+#### Example:
+Error Handling in `routes/employees.js`
+
+```javascript
+router.post('/', async (req, res) => {
+  try {
+    const newEmployee = new Employee(req.body);
+    await newEmployee.save();
+    res.redirect('/employees/view');
+  } catch (err) {
+    res.status(400).send(err.message); // handling errors
+  }});
+```
+Handling Database Errors in `conn.js`
+
+```javascript
+mongoose
+  .connect(process.env.ATLAS_URI, { dbName: 'SBA319', })
+  .then(() => console.log('Connected to MongoDB via Mongoose'))
+  .catch((error) => console.error('MongoDB connection error:', error));
+```
 
 ## 10. Commit frequently to the git repository 
 - Git Commit Practices Project includes frequent commit (over 10)
 
 ## 11. Include a README file that contains a description of my application  ✅
-
 
 ## 12. Creativity and User Experience ✅
 
