@@ -1,8 +1,6 @@
 const mongoose = require('../db/conn');
 
 
-
-
 const employeeSchema = new mongoose.Schema({
   Eid: {type: Number,required: true},
   firstName: { type: String, required: true },
