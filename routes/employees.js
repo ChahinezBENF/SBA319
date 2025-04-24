@@ -125,11 +125,12 @@ router.get('/update/:id', async (req, res) => {
 // Update Employee
 // for handling form submissions 
 router.post('/update/:id', async (req, res) => {
-  const { firstName, lastName, role, department, salary, hireDate ,dob} = req.body;
+  const { Eid, firstName, lastName, role, department, salary, hireDate ,dob} = req.body;
   try {
+    
     const updatedEmployee = await Employee.findByIdAndUpdate(
       req.params.id,
-      { firstName, lastName, role, department, salary, hireDate, dob },
+      { Eid, firstName, lastName, role, department, salary, hireDate, dob },
       { new: true, runValidators: true }
     );
     if (!updatedEmployee) {

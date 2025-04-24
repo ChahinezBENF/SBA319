@@ -142,8 +142,71 @@ router.delete('/:id', async (req, res) => {
   try { const deletedEmployee = await Employee.findByIdAndDelete(req.params.id);
       } catch (err) { res.status(500).send(err.message);  }});
 ```
+## 7. Include Sensible Indexes for Frequently Queried Fields
+Indexes are applied thoughtfully in schemas : 
+- **Employee Schema :**
+    - Eid : Unique and indexed for quick employee lookups
+    - role , departmenet : Indexed for efficient querying of relationships
+- **Role Schema :** 
+    - Rid : Unique and indexed for rapid role lookups
+    - title : Indexed for efficient searches by role titles
+- **Department :**
+    - Did : Unique and indexed for fast department lookups
+    - name : Indexed for efficient department name-based queries
 
-## 7. Populate Collections with Sample Data
+#### Example:
+```javascript
+Eid: { type: Number, required: true, unique: true, index: true } // Unique and indexed for quick lookups
+role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role', required: true, index: true } // Indexed for relationship queries
+department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true, index: true } // Indexed for relationship queries
+```
+## 8. Include sensible MongoDB data validation rules for at least one data collection
+- **Employee Model Validation :**  
+
+```javascript
+Eid: {type: Number,required: true, unique : true , index: true, validate: {
+    validator: (value) => value > 0, // Ensure `Eid` is positive
+    message: 'Eid must be a positive number.'  } },
+.........
+ salary: { type: Number, required: true,
+    min: [30000, 'Salary must be at least $30,000.'], // Enforce minimum salary
+    max: [200000, 'Salary cannot exceed $200,000.'] // Enforce maximum salary
+  },
+```
+
+- **Confirming Validation via API Routes :**  The POST route in `routes/employees.js`
+
+```javascript
+router.post('/update/:id', async (req, res) => {
+  const { firstName, lastName, role, department, salary, hireDate ,dob} = req.body;
+  try {  const updatedEmployee = await Employee.findByIdAndUpdate(
+      req.params.id,
+      { firstName, lastName, role, department, salary, hireDate, dob },
+      { new: true, runValidators: true });
+      .........}
+```
+
+- **Testing Validation in Postman :** put Invalid Data Example in body 
+
+```javascript
+{
+  "Eid": -5,
+  "firstName": "Chahinez",
+  "lastName": "Benfriha",
+  "role": "643f1f32fc13ae5a4d000004",   
+  "department": "643f1f32fc13ae5a4d000005", 
+  "salary": 25000,
+  "hireDate": "invalid-date",
+  "dob": "2025-01-01"
+}
+```
+- **Expected Response :** 
+```javascript
+ {
+  Validation failed: salary: Salary must be at least $30,000., Eid: Eid must be a positive number.
+}
+```
+## 9. Populate Collections with Sample Data
 The database is populated with sample data using the `seedData.js` script. Each collection has more than 10 documents to meet and exceed the requirements.
 The `routes/employees.js` file handles routing logic, while `seedData.js` is responsible for database seeding. Keeping them separate to ensures modularity and clarity
 
@@ -163,7 +226,7 @@ The `seedData.js` allows seeding employees, roles and departments
 
 
 
-## 8.Utilize reasonable code organization practices 
+## 10.Utilize reasonable code organization practices 
 my project demonstrates reasonable code organization by adhering to the following best practices:
 - **the codebase is organized into dedicated directories for different functionalities:** 
     -  models: Contains Mongoose schemas for data modeling.
@@ -181,7 +244,7 @@ my project demonstrates reasonable code organization by adhering to the followin
     - Sensitive configuration values (e.g., MongoDB URI, PORT) are stored in a `.env ` file, added in `.gitignore` file keeping them secure and easily configurable.
 
 
-## 9.Ensure that the program runs without errors 
+## 11.Ensure that the program runs without errors 
    - No Runtime Errors, Handle Failures Gracefully, Error Handling
 
 #### Example:
@@ -206,14 +269,14 @@ mongoose
   .catch((error) => console.error('MongoDB connection error:', error));
 ```
 
-## 10. Commit frequently to the git repository 
+## 12. Commit frequently to the git repository 
 - Git Commit Practices Project includes frequent commit (over 10)
 
-## 11. Include a README file that contains a description of my application  ✅
+## 13. Include a README file that contains a description of my application  ✅
 
-## 12. Creativity and User Experience ✅
+## 15. Creativity and User Experience ✅
 
-## 13. Use Mongoose for Application Implementation 
+## 16. Use Mongoose for Application Implementation 
  The application relies on Mongoose for:
   - **Models:** `employeeModel`, `roleModel`, `departmentModel` define schema-level validations.
   - **Database Queries:** CRUD operations are implemented using `.find()`, `.save()`, `.findByIdAndUpdate()`, and `.findByIdAndDelete()`.
