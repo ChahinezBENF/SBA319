@@ -3,31 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title><%= title %> | Employee Management System</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="header">
-    <h1><%= title %> | Employee Management System</h1>
+    <div class="brand">
+  
+      <h1><%= title %> | Employee Management System</h1>
+    </div>
   </header>
 
   <main class="main-content">
-    
-
     <nav class="navigation">
       <ul class="nav-list">
-        <li><a href="/">Home</a></li>
-        <li><a href="/employees/view">Employees</a></li>
-        <li><a href="/departments/view">Departments</a></li>
-        <li><a href="/roles/view">Roles</a></li>
+        <li><a href="/">🏠 Home</a></li>
+        <li><a href="/employees/view">👥 Employees</a></li>
+        <li><a href="/departments/view">🏢 Departments</a></li>
+        <li><a href="/roles/view">⚙️ Roles</a></li>
       </ul>
     </nav>
 
     <section class="overview">
       <h2>Platform Overview</h2>
       <p>
-        Our system is designed to simplify how you manage employees, departments, and job roles across your organization. 
-        With intuitive navigation and powerful features, you’ll have everything you need to stay organized and efficient.
+        Our system is designed to simplify managing employees, departments, and roles. Navigate easily and stay organized.
       </p>
     </section>
 
@@ -38,20 +39,19 @@
         <div class="feature-card">🏢 Manage departments and assign roles</div>
         <div class="feature-card">⚙️ Easily update or delete entries</div>
         <div class="feature-card">📊 Get insights into your team structure</div>
+        <div class="feature-card">🗂️ Export data in multiple formats (CSV, PDF)</div>
+        <div class="feature-card">📅 Track employee performance and attendance</div>
       </div>
     </section>
 
     <section class="quick-start">
       <h2>Get Started</h2>
-      <p>Use the navigation menu above to access employees, departments, and roles. Or jump right in below:</p>
       <div class="quick-links">
         <a href="/employees/view" class="quick-button">Manage Employees</a>
         <a href="/departments/view" class="quick-button">View Departments</a>
         <a href="/roles/view" class="quick-button">Explore Roles</a>
       </div>
     </section>
-    
-    
   </main>
 
   <footer class="footer">

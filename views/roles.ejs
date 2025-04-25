@@ -24,14 +24,14 @@
   <main class="main-content">
 
     <div class="search-bar">
-      <form action="/roles/search" method="GET">
-        <input type="text" name="q" placeholder="Search Roles by ID or Name..." />
-        <button type="submit">Search</button>
+      <form action="/roles/search" method="GET" class="search-form">
+        <input type="text" name="q" placeholder="Search Roles by ID or Name..." class="search-input"/>
+        <button type="submit" class="search-button">Search</button>
       </form>
     
     </div>
 
-    <table class="employee-table">
+    <table class="employee-table" id="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -50,15 +50,17 @@
               <td><%= role.Rid %></td>
               <td><%= role.title %></td>
               <td>
+                <div class="action-buttons-inline">
                 <!-- Update Form -->
                 <form action="/roles/<%= role._id %>?_method=PUT" method="POST" style="display:inline;">
-                  <input type="text" name="title" value="<%= role.title %>" required />
-                  <button type="submit">Update</button>
+                  <input type="text" name="title" value="<%= role.title %>" class="inline-input"  required />
+                  <button type="submit" class="inline-button update">Update</button>
                 </form>
                 <!-- Delete Form -->
                 <form action="/roles/<%= role._id %>?_method=DELETE" method="POST" style="display:inline;">
-                  <button type="submit">Delete</button>
+                  <button type="submit" class="inline-button delete">Delete</button>
                 </form>
+              </div>
               </td>
             </tr>
           <% }) %>
@@ -67,11 +69,11 @@
     </table>
 
     <!-- Add Role Form -->
-    <div class="add-role">
+    <div class="action-buttons">
           <form action="/roles" method="POST">
-        <input type="number" name="Rid" placeholder="Role ID" required />
-        <input type="text" name="title" placeholder="Role Title" required />
-        <button type="submit">Add Role</button>
+        <input type="number" name="Rid" placeholder="Role ID" class="inline-input" required />
+        <input type="text" name="title" placeholder="Role Title" class="inline-input" required />
+        <button type="submit" class="add-employee-button">Add Role</button>
       </form>
     </div>
 

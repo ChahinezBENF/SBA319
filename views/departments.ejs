@@ -23,59 +23,55 @@
   </nav>
 
   <main class="main-content">
-
     <div class="search-bar">
-      <form action="/departments/search" method="GET">
-        <input type="text" name="q" placeholder="Search Departments by ID or Name..." />
-        <button type="submit">Search</button>
+      <form action="/departments/search" method="GET" class="search-form">
+        <input type="text" name="q" placeholder="Search Departments by ID or Name..." class="search-input" />
+        <button type="submit" class="search-button">Search</button>
       </form>
-    
     </div>
 
-    <table class="employee-table">
-             <thead>
+    <table class="employee-table" id="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (departments.length === 0) { %>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Actions</th>
+            <td colspan="3" style="text-align: center;">No departments found. Try a different search term.</td>
           </tr>
-        </thead>
-        <tbody>
-          <% if (departments.length === 0) { %>
+        <% } else { %>
+          <% departments.forEach(department => { %>
             <tr>
-              <td colspan="3">No departments found. Try a different search term.</td>
+              <td><%= department.Did %></td>
+              <td><%= department.name %></td>
+              <td>
+                <div class="action-buttons-inline">
+                  <form action="/departments/<%= department._id %>?_method=PUT" method="POST" style="display: inline;">
+                    <input type="text" name="name" value="<%= department.name %>" class="inline-input" required />
+                    <button type="submit" class="inline-button update">Update</button>
+                  </form>
+                  <form action="/departments/<%= department._id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="inline-button delete">Delete</button>
+                  </form>
+                </div>
+              </td>
             </tr>
-          <% } else { %>
-            <% departments.forEach(department => { %>
-              <tr>
-                <td><%= department.Did %></td>
-                <td><%= department.name %></td>
-                <td>
-                  <!-- Update Form -->
-                  <form action="/departments/<%= department._id %>?_method=PUT" method="POST" style="display:inline;">
-                    <input type="text" name="name" value="<%= department.name %>" required />
-                    <button type="submit">Update</button>
-                  </form>
-                  <!-- Delete Form -->
-                  <form action="/departments/<%= department._id %>?_method=DELETE" method="POST" style="display:inline;">
-                    <button type="submit">Delete</button>
-                  </form>
-                </td>
-              </tr>
-            <% }) %>
-          <% } %>
-        </tbody>
-      </table>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
 
-      <!-- Add Department Form -->
-    <div class="add-department">
-            <form action="/departments/" method="POST">
-        <input type="number" name="Did" placeholder="Department ID" required />
-        <input type="text" name="name" placeholder="Department Name" required />
-        <button type="submit">Add Department</button>
+    <div class="action-buttons">
+      <form action="/departments/" method="POST">
+        <input type="number" name="Did" placeholder="Department ID" class="inline-input" required />
+        <input type="text" name="name" placeholder="Department Name" class="inline-input" required />
+        <button type="submit" class="add-employee-button">Add Department</button>
       </form>
     </div>
-
   </main>
 
   <footer class="footer">

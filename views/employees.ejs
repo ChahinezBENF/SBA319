@@ -27,9 +27,15 @@
 
   <main class="main-content">
     <div class="search-bar">
-      <form action="/employees/search" method="GET">
-        <input type="text" name="q" id="employeeSearch" placeholder="Search Employees..." />
-        <button type="submit">Search</button>
+      <form action="/employees/search" method="GET" class="search-form">
+        <input 
+          type="text" 
+          name="q" 
+          id="employeeSearch" 
+          placeholder="Search Employees..." 
+          class="search-input" 
+        />
+        <button type="submit" class="search-button">Search</button>
       </form>
     </div>
 
@@ -48,45 +54,41 @@
         </tr>
       </thead>
       <tbody>
-        <% if (employees.length===0) { %>
+        <% if (employees.length === 0) { %>
           <tr>
-            <td colspan="7">No employees found. Try a different search term.</td>
+            <td colspan="9" style="text-align: center;">No employees found. Try a different search term.</td>
           </tr>
-          <% } else { %>
-            <% employees.forEach(employee=> { %>
-              <tr>
-                <td>  <%= employee.Eid %> </td>
-                <td> <%= employee.firstName %> </td>
-                <td> <%= employee.lastName %> </td>
-                <td><%= employee.role ? employee.role.title : 'No Role Assigned' %></td>
-                <td><%= employee.department ? employee.department.name : 'No Department Assigned' %></td>
-                <td> <%= employee.salary %> </td>
-                <td> <%= new Date(employee.hireDate).toLocaleDateString() %> </td>
-                <td><%= new Date(employee.dob).toLocaleDateString() %></td>
-                <td>
-
-                  <!-- Delete Button -->
-                  <form action="/employees/<%= employee._id %>?_method=DELETE" method="POST">
-                    <button type="submit">Delete</button>
+        <% } else { %>
+          <% employees.forEach(employee => { %>
+            <tr>
+              <td><%= employee.Eid %></td>
+              <td><%= employee.firstName %></td>
+              <td><%= employee.lastName %></td>
+              <td><%= employee.role ? employee.role.title : 'No Role Assigned' %></td>
+              <td><%= employee.department ? employee.department.name : 'No Department Assigned' %></td>
+              <td><%= employee.salary %></td>
+              <td><%= new Date(employee.hireDate).toLocaleDateString() %></td>
+              <td><%= new Date(employee.dob).toLocaleDateString() %></td>
+              <td>
+                <div class="action-buttons-inline">
+                  <form action="/employees/<%= employee._id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="inline-button delete">Delete</button>
                   </form>
-                  
-
-                  <!-- Update Button -->
-                  <form action="/employees/update/<%= employee._id %>" method="GET">
-                    <button type="submit">Update</button>
-                  </form>                  
-            
-                </td>
-
-              </tr>
-              <% }) %>
-                <% } %>
+                  <form action="/employees/update/<%= employee._id %>" method="GET" style="display: inline;">
+                    <button type="submit" class="inline-button update">Update</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
       </tbody>
     </table>
+    
 
     <div class="action-buttons">
       <form action="/employees/add" method="GET">
-        <button type="submit">Add Employee</button>
+        <button type="submit" class="add-employee-button">Add Employee</button>
       </form>
     </div>
     
@@ -98,4 +100,4 @@
   </footer>
 </body>
 
-</html>
+</html

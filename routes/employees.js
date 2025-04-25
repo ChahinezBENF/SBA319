@@ -37,27 +37,47 @@ router.get('/view', async (req, res) => {
 });
 
 
-
-
-
 // Search for employees
-router.get('/search', async (req, res) => {
-  const { q } = req.query; // Extract the search query parameter (e.g., ?q=value)
+// router.get('/search', async (req, res) => {
+//   const { q } = req.query; // Extract the search query parameter 
   
-  try {
-    // Search for employees by matching firstName, lastName, role, or department
-    const employees = await Employee.find({
-      $or: [
-        { firstName: { $regex: q, $options: 'i' } }, // Case-insensitive search
-        { lastName: { $regex: q, $options: 'i' } },
-        { role: { $regex: q, $options: 'i' } },
-        { department: { $regex: q, $options: 'i' } }
-      ]
-    });
+//   try {
+//     // Search for employees by matching firstName, lastName, role, or department
+//     const employees = await Employee.find({
+//       $or: [
+//         { firstName: { $regex: q, $options: 'i' } }, 
+//         { lastName: { $regex: q, $options: 'i' } },
+//         { role: { $regex: q, $options: 'i' } },
+//         { department: { $regex: q, $options: 'i' } }
+//       ]
+//     });
     
-    res.render('employees', { employees });
+//     res.render('employees', { employees });
+//   } catch (err) {
+//     res.status(500).send(err.message); // Handle errors
+//   }
+// });
+
+router.get('/search', async (req, res) => {
+  const { q } = req.query; // Extract the search query parameter
+
+  try {
+    // Fetch all employees and populate role and department fields
+    const employees = await Employee.find()
+      .populate('role', 'title')
+      .populate('department', 'name');
+
+    // Filter employees manually using JavaScript
+    const filteredEmployees = employees.filter(employee =>
+      employee.firstName.toLowerCase().includes(q.toLowerCase()) ||
+      employee.lastName.toLowerCase().includes(q.toLowerCase()) ||
+      (employee.role && employee.role.title.toLowerCase().includes(q.toLowerCase())) ||
+      (employee.department && employee.department.name.toLowerCase().includes(q.toLowerCase()))
+    );
+
+    res.render('employees', { employees: filteredEmployees });
   } catch (err) {
-    res.status(500).send(err.message); // Handle errors
+    res.status(500).send(err.message);
   }
 });
 
